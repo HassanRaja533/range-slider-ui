@@ -1,12 +1,18 @@
 module.exports = range_slider
 
-function range_slider () {
+function range_slider (opts) {
+  const { min = 0, max = 1000 } = opts
   const el = document.createElement('div')
   el.classList.add('container')
   const shadow = el.attachShadow({ mode: 'closed' })
 
   const input = document.createElement('input')
   input.type = 'range'
+  input.min = min
+  input.max = max
+  input.value = min
+
+  input.oninput = handle_input
   const bar = document.createElement('div')
   bar.classList.add('bar')
 
@@ -22,6 +28,12 @@ function range_slider () {
 
   shadow.append(style, input, bar)
   return el
+
+  // handle
+  function handle_input (e) {
+    const val = Number(e.target.value)
+    fill.style.width = `${(val / max) * 100}%`
+  }
 }
 
 function get_theme () {
@@ -92,7 +104,7 @@ function get_theme () {
   input:focus + .bar .fill,
   input:focus-within + .bar .fill,
   input:active + .bar .fill {
-    background-color: var(--blue);
+    background-color: var( --blue);
   }
     `
 }
