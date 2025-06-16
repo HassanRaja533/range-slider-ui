@@ -106,5 +106,5 @@ function get_theme () {
   input:active + .bar .fill {
     background-color: var( --blue);
   }
-    `
+  `
 }

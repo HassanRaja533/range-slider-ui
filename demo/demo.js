@@ -1,5 +1,5 @@
 const range_slider = require('..')
-const range = range_slider()
+const range = range_slider({ min: 0, max: 10 })
 document.body.innerHTML = '<h1> range slider </h1>'
 
 const main = document.createElement('div')
