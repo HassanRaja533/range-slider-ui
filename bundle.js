@@ -17,9 +17,22 @@ document.body.append(main, style)
 
 },{"..":2}],2:[function(require,module,exports){
 module.exports = range_slider
+let id = 0
 
-function range_slider (opts) {
+function range_slider (opts, protocol) {
   const { min = 0, max = 1000 } = opts
+  const name = `range-slider-${id++}`
+
+  const notify = protocol({ from: name }, listen)
+  function listen (message) {
+    const { type, data } = message
+    if (type === 'update') {
+      input.value = data
+    }
+    fill.style.width = `${(data / max) * 100}%`
+    input.focus()
+  }
+
   const el = document.createElement('div')
   el.classList.add('container')
   const shadow = el.attachShadow({ mode: 'closed' })
@@ -47,10 +60,11 @@ function range_slider (opts) {
   shadow.append(style, input, bar)
   return el
 
-  // handle
+  // handler
   function handle_input (e) {
     const val = Number(e.target.value)
     fill.style.width = `${(val / max) * 100}%`
+    notify({ from: name, type: 'update', data: val })
   }
 }
 
