@@ -62,9 +62,7 @@ function get_theme () {
   return ` 
   :host { box-sizing: border-box; }
     *, *:before, *:after { box-sizing: inherit; }
-    :host { box-sizing: border-box; }
-  *, *:before, *:after { box-sizing: inherit; }
- 
+   
   :host {
     --white       : hsla(0,0%,100%,1);
     --transparent : hsla(0,0%,0%,0);
