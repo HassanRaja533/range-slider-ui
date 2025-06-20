@@ -2,6 +2,7 @@
 const range_slider = require('..')
 const range = range_slider({ min: 0, max: 10 })
 document.body.innerHTML = '<h1> range slider </h1>'
+
 const main = document.createElement('div')
 main.classList.add('demo')
 
@@ -22,8 +23,16 @@ let id = 0
 function range_slider (opts, protocol) {
   const { min = 0, max = 1000 } = opts
   const name = `range-slider-${id++}`
+  const state = {}
+
+  function protocol (message, notify) {
+    const { from } = message
+    state[from] = { value: 0, notify }
+    return listen
+  }
 
   const notify = protocol({ from: name }, listen)
+
   function listen (message) {
     const { type, data } = message
     if (type === 'update') {
@@ -70,9 +79,9 @@ function range_slider (opts, protocol) {
 
 function get_theme () {
   return ` 
+  :host { box-sizing: border-box; }
+    *, *:before, *:after { box-sizing: inherit; }
     :host { box-sizing: border-box; }
-     *, *:before, *:after { box-sizing: inherit; }
-     :host { box-sizing: border-box; }
   *, *:before, *:after { box-sizing: inherit; }
  
   :host {
